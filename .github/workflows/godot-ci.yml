@@ -56,9 +56,18 @@ jobs:
         with:
           name: linux
           path: build/linux
-
+  
   export-web:
     name: Web Export
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-20.04
     container:
       image: barichello/godot-ci:4.2.1
@@ -75,12 +84,16 @@ jobs:
         run: |
           mkdir -v -p build/web
           cd $PROJECT_PATH
-          godot --headless --verbose --export-release "HTML5" ./build/web/index.html
+          godot --headless --verbose --export-release "Web" ./build/web/index.html
+          wget https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/master/coi-serviceworker.min.js -P ./build/web
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          name: web
+          name: github-pages
           path: build/web
+      - name: Deploy GitHub Pages site
+        uses: actions/deploy-pages@v4
+          
 
   export-mac:
     name: Mac Export
@@ -100,7 +113,7 @@ jobs:
         run: |
           mkdir -v -p build/mac
           cd $PROJECT_PATH
-          godot --headless --verbose --export-release "Mac OSX" ./build/mac/$EXPORT_NAME.zip
+          godot --headless --verbose --export-release "macOS" ./build/mac/$EXPORT_NAME.zip
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
