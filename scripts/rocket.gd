@@ -1,10 +1,11 @@
-extends Area2D
+class_name Rocket extends Area2D
 
 @export var speed := 1000.0
 @export var random_rotation_difference_max := 4.0
 
 # Always go forward at fixed speed
 var movement_vector := Vector2(0, -1)
+var player: Player
 
 func _ready():
 	# Apply random rotation differences for variety
@@ -14,7 +15,7 @@ func _physics_process(delta):
 	# No move_and_slide since this is a simple sprite
 	global_position += movement_vector.rotated(rotation) * speed * delta
 	
-	var screen_size = get_viewport_rect().size
+	# var screen_size = get_viewport_rect().size
 	
 	# Check if rocket is out of bounds
 	#if global_position.y < 0:
@@ -42,3 +43,9 @@ func _on_timer_timeout():
 	# Wait for the explosion animation to finish
 	await get_tree().create_timer(1.4).timeout
 	queue_free()
+
+
+func _on_area_entered(area):
+	if area is Asteroid:
+		area.explode(player)
+		queue_free()

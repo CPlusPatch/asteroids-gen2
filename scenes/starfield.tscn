@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctg8n04703qua"]
+
+[ext_resource type="Script" path="res://scripts/starfield.gd" id="1_5538l"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_djegg"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 360, 1)
+spread = 0.0
+initial_velocity_min = -10.0
+initial_velocity_max = -10.0
+gravity = Vector3(0, 0, 0)
+
+[node name="Starfield" type="Node2D"]
+script = ExtResource("1_5538l")
+
+[node name="StarfieldBack" type="GPUParticles2D" parent="."]
+z_index = -100
+position = Vector2(1280, 360)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_djegg")
+lifetime = 140.0
+preprocess = 280.0

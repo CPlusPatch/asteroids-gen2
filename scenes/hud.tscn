@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://cds13owon8pgr"]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_nyhwg"]
+[ext_resource type="FontFile" uid="uid://3ba4apinglfo" path="res://assets/Fonts/Essentle4.otf" id="2_pt8r8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_e8ejf"]
+font = ExtResource("2_pt8r8")
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_vp1no"]
+font = ExtResource("2_pt8r8")
+font_size = 40
+outline_color = Color(1, 0, 0, 1)
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nyhwg")
+
+[node name="ScoreContainer" type="HFlowContainer" parent="."]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 106.0
+offset_bottom = 77.0
+
+[node name="ScoreText" type="Label" parent="ScoreContainer"]
+layout_mode = 2
+text = "SCORE"
+label_settings = SubResource("LabelSettings_e8ejf")
+
+[node name="Score" type="Label" parent="ScoreContainer"]
+layout_mode = 2
+text = "0000"
+label_settings = SubResource("LabelSettings_vp1no")

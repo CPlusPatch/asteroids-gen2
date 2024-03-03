@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3 uid="uid://bcttahwhk4rk8"]
+
+[ext_resource type="Texture2D" uid="uid://cgaagiv3ixu04" path="res://assets/Environment/Starfield/background_1_4x.png" id="1_qo7pg"]
+[ext_resource type="Texture2D" uid="uid://bwlt32stlxxn8" path="res://assets/Environment/Starfield/background_2_4x.png" id="2_cgyf3"]
+[ext_resource type="Texture2D" uid="uid://dmv0cpbeurcjh" path="res://assets/Environment/Starfield/background_3_4x.png" id="3_ec88l"]
+[ext_resource type="Texture2D" uid="uid://cl70dxhhk2bjc" path="res://assets/Environment/Starfield/background_4_4x.png" id="4_japyw"]
+
+[sub_resource type="GDScript" id="GDScript_swayl"]
+script/source = "extends ParallaxBackground
+"
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+scale = Vector2(4, 4)
+transform = Transform2D(4, 0, 0, 4, 0, 0)
+script = SubResource("GDScript_swayl")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.05, 0.05)
+motion_mirroring = Vector2(1024, 896)
+
+[node name="Background1" type="Sprite2D" parent="ParallaxLayer"]
+modulate = Color(1, 1, 1, 0.392157)
+texture = ExtResource("1_qo7pg")
+centered = false
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="."]
+position = Vector2(2, 0)
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(1024, 896)
+
+[node name="Background2" type="Sprite2D" parent="ParallaxLayer2"]
+modulate = Color(1, 1, 1, 0.392157)
+texture = ExtResource("2_cgyf3")
+centered = false
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="."]
+position = Vector2(2, 0)
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(1024, 896)
+
+[node name="Background2" type="Sprite2D" parent="ParallaxLayer3"]
+modulate = Color(1, 1, 1, 0.392157)
+texture = ExtResource("3_ec88l")
+centered = false
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="."]
+position = Vector2(2, 0)
+motion_scale = Vector2(0.3, 0.3)
+motion_mirroring = Vector2(1024, 896)
+
+[node name="Background2" type="Sprite2D" parent="ParallaxLayer4"]
+modulate = Color(1, 1, 1, 0.392157)
+texture = ExtResource("4_japyw")
+centered = false

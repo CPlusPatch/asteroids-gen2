@@ -1,4 +1,4 @@
-extends CharacterBody2D
+class_name Player extends CharacterBody2D
 
 signal rocket_fired(rocket)
 signal y_out_of_bounds(side: int)
@@ -11,6 +11,7 @@ signal x_out_of_bounds(side: int)
 @export var firing_cooldown := 0.2
 @export var initial_ammo := 6
 @export var rocket_rack_capacity := 6
+@export var score := .0
 
 @onready var firing_spots := $"Rocket Firing Spots"
 @onready var rocket_rack_sprites := $"Body/Rocket Rack"
@@ -22,7 +23,7 @@ var shoot_cooldown := false
 # Index of current rocket in firing rack
 var rocket_rack_index := 0
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_pressed("Fire"):
 		if !shoot_cooldown:
 			fire_rocket()
@@ -54,7 +55,7 @@ func _physics_process(delta):
 		velocity = velocity.move_toward(Vector2.ZERO, brake_speed)
 	move_and_slide()
 	
-	var screen_size = get_viewport_rect().size
+	# var screen_size = get_viewport_rect().size
 	
 	# Check if player is out of bounds
 	#if global_position.y < 0:
@@ -98,6 +99,7 @@ func fire_rocket():
 	
 	new_rocket.global_position = selected_firing_spot.global_position
 	new_rocket.rotation = rotation
+	new_rocket.player = self
 	
 	emit_signal("rocket_fired", new_rocket)
 	
@@ -105,3 +107,7 @@ func fire_rocket():
 	var audio: AudioStreamPlayer = $"Firing Sounds".get_children().pick_random()
 	
 	audio.play()
+	
+func collide(body):
+	if body is Asteroid:
+		score -= 100

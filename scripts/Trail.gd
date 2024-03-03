@@ -10,7 +10,7 @@ func _ready():
 	target = get_node(target_path)
 	clear_points()
 
-func _process(delta):
+func _process(_delta):
 	global_position = Vector2(0.0, 0.0)
 	global_rotation = 0
 	point = position_node.global_position
