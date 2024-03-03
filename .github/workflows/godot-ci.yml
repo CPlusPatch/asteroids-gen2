@@ -81,6 +81,9 @@ jobs:
         with:
           name: web
           path: build/web
+      - name: Deploy GitHub Pages site
+        uses: actions/deploy-pages@v4
+          
 
   export-mac:
     name: Mac Export
@@ -100,7 +103,7 @@ jobs:
         run: |
           mkdir -v -p build/mac
           cd $PROJECT_PATH
-          godot --headless --verbose --export-release "Mac OSX" ./build/mac/$EXPORT_NAME.zip
+          godot --headless --verbose --export-release "macOS" ./build/mac/$EXPORT_NAME.zip
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
