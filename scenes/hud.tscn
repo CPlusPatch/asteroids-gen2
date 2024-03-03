@@ -52,7 +52,7 @@ var energy: float = 0.0:
 	set = _set_energy
 	
 func _set_energy(new_energy):
-	var prev_energy = energy
+	var prev_energy: float = energy
 	energy = min(max_value, new_energy)
 	wanted_value = energy
 	
@@ -62,7 +62,8 @@ func _set_energy(new_energy):
 	if energy < prev_energy:
 		timer.start()
 	else:
-		wanted_damage_value = energy
+		pass
+		#wanted_damage_value = energy
 
 func _process(_delta):
 	if abs(wanted_value - value) < speed:
@@ -86,9 +87,8 @@ func init_energy(_energy: float):
 	value = _energy
 	damage_bar.max_value = _energy
 	damage_bar.value = _energy
-	wanted_value = value
-	wanted_damage_value = value
-	print(max_value, damage_bar.max_value)
+	wanted_value = _energy
+	wanted_damage_value = _energy
 
 
 func _on_timer_timeout():
