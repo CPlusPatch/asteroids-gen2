@@ -1,22 +1,25 @@
 extends Node2D
 
-@export var spawn_probability := 0.01
+@export var spawn_probability := 0.05
 @export var max_asteroid_count := 100
 
 @onready var rockets := $Rockets
 @onready var players := $Players
 @onready var asteroids := $Asteroids
-@onready var hud := $UI/HUD
+@onready var hud := $UI/HUD as HUD
 
 var asteroid_scene := preload("res://scenes/asteroid.tscn")
 var player_scene := preload("res://scenes/player.tscn")
 
 func _ready():
-	var new_player := player_scene.instantiate()
+	var new_player := player_scene.instantiate() as Player
+	hud.max_energy = new_player.max_energy
+	hud.energy = new_player.energy
 	players.add_child(new_player)
 	
 	for player in players.get_children():
 		player.connect("rocket_fired", _on_player_rocket_fired)
+		player.connect("death", game_over)
 	
 	for asteroid in asteroids.get_children():
 		asteroid.connect("exploded", _on_asteroid_exploded)
@@ -24,6 +27,9 @@ func _ready():
 func _process(_delta):
 	if Input.is_action_pressed("Reset") and OS.is_debug_build():
 		get_tree().reload_current_scene()
+	
+	# Update energy
+	hud.energy = players.get_children()[0].energy
 	
 	# Randomly spawn asteroids outside the viewport
 	var screen_size := get_viewport_rect().size
@@ -81,3 +87,6 @@ func spawn_asteroid(asteroid_position: Vector2, size: Asteroid.AsteroidSize, ast
 	new_asteroid.connect("exploded", _on_asteroid_exploded)
 
 	asteroids.call_deferred("add_child", new_asteroid)
+	
+func game_over():
+	SceneTransition.change_scene("res://scenes/game_over.tscn")

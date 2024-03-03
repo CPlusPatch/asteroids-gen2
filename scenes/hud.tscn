@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cds13owon8pgr"]
+[gd_scene load_steps=14 format=3 uid="uid://cds13owon8pgr"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_nyhwg"]
 [ext_resource type="FontFile" uid="uid://3ba4apinglfo" path="res://assets/Fonts/Essentle4.otf" id="2_pt8r8"]
+[ext_resource type="Texture2D" uid="uid://dx3nivrvi8pck" path="res://assets/Icons/electricity.png" id="3_n4ac8"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_e8ejf"]
 font = ExtResource("2_pt8r8")
@@ -11,6 +12,100 @@ font_size = 24
 font = ExtResource("2_pt8r8")
 font_size = 40
 outline_color = Color(1, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_c5ogr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uj55i"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.843137, 0, 1)
+border_blend = true
+
+[sub_resource type="Gradient" id="Gradient_3xnfp"]
+colors = PackedColorArray(1, 0, 0, 1, 0, 1, 0, 1)
+metadata/_snap_enabled = true
+metadata/_snap_count = 2
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3ajbk"]
+gradient = SubResource("Gradient_3xnfp")
+width = 400
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x8wpi"]
+texture = SubResource("GradientTexture1D_3ajbk")
+axis_stretch_horizontal = 1
+
+[sub_resource type="GDScript" id="GDScript_ld68d"]
+script/source = "extends ProgressBar
+
+@export var speed := 0.2
+
+@onready var timer := $Timer as Timer
+@onready var damage_bar := $DamageBar as ProgressBar
+
+var wanted_value := value
+var wanted_damage_value := value
+
+var energy: float = 0.0:
+	set = _set_energy
+	
+func _set_energy(new_energy):
+	var prev_energy = energy
+	energy = min(max_value, new_energy)
+	wanted_value = energy
+	
+	if energy <= 0:
+		energy = 0
+	
+	if energy < prev_energy:
+		timer.start()
+	else:
+		wanted_damage_value = energy
+
+func _process(_delta):
+	if abs(wanted_value - value) < speed:
+		value = wanted_value
+	elif wanted_value < value:
+		value -= speed
+	elif wanted_value > value:
+		value += speed
+		
+	if abs(wanted_damage_value - damage_bar.value) < speed:
+		damage_bar.value = wanted_damage_value
+	elif wanted_damage_value < damage_bar.value:
+		damage_bar.value -= speed
+	elif wanted_damage_value > damage_bar.value:
+		damage_bar.value += speed
+	
+
+func init_energy(_energy: float):
+	energy = _energy
+	max_value = _energy
+	value = _energy
+	damage_bar.max_value = _energy
+	damage_bar.value = _energy
+	wanted_value = value
+	wanted_damage_value = value
+	print(max_value, damage_bar.max_value)
+
+
+func _on_timer_timeout():
+	wanted_damage_value = energy
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x22cc"]
+bg_color = Color(0.101961, 0.101961, 0.101961, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+shadow_color = Color(0, 0, 0, 0.27451)
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1unyj"]
+bg_color = Color(1, 1, 1, 1)
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -37,3 +132,56 @@ label_settings = SubResource("LabelSettings_e8ejf")
 layout_mode = 2
 text = "0000"
 label_settings = SubResource("LabelSettings_vp1no")
+
+[node name="EnergyContainer" type="VFlowContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -14.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/v_separation = 10
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="EnergyContainer"]
+custom_minimum_size = Vector2(13, 21)
+layout_mode = 2
+texture = ExtResource("3_n4ac8")
+expand_mode = 1
+
+[node name="EnergyBar" type="ProgressBar" parent="EnergyContainer"]
+custom_minimum_size = Vector2(400, 15)
+layout_mode = 2
+size_flags_vertical = 4
+theme = SubResource("Theme_c5ogr")
+theme_override_constants/outline_size = 10
+theme_override_styles/background = SubResource("StyleBoxFlat_uj55i")
+theme_override_styles/fill = SubResource("StyleBoxTexture_x8wpi")
+value = 70.0
+show_percentage = false
+script = SubResource("GDScript_ld68d")
+
+[node name="DamageBar" type="ProgressBar" parent="EnergyContainer/EnergyBar"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_x22cc")
+theme_override_styles/fill = SubResource("StyleBoxFlat_1unyj")
+value = 80.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="EnergyContainer/EnergyBar"]
+wait_time = 0.4
+one_shot = true
+
+[connection signal="timeout" from="EnergyContainer/EnergyBar/Timer" to="EnergyContainer/EnergyBar" method="_on_timer_timeout"]

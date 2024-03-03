@@ -1,8 +1,7 @@
 class_name Player extends CharacterBody2D
 
 signal rocket_fired(rocket)
-signal y_out_of_bounds(side: int)
-signal x_out_of_bounds(side: int)
+signal death
 
 @export var acceleration := 10.0
 @export var max_speed := 550.0
@@ -12,18 +11,34 @@ signal x_out_of_bounds(side: int)
 @export var initial_ammo := 6
 @export var rocket_rack_capacity := 6
 @export var score := .0
+# Corresponds to a camera scale of 2**zoom
+@export var min_zoom := -1
+@export var max_zoom := 2
+@export var energy := 200.0
+@export var max_energy := 200.0
+@export var energy_regen_rate := 2
 
 @onready var firing_spots := $"Rocket Firing Spots"
 @onready var rocket_rack_sprites := $"Body/Rocket Rack"
+@onready var camera := $Camera2D as Camera2D
+@onready var zoom: float:
+	get:
+		return camera.zoom.x
+	set(value):
+		camera.zoom.x = value
+		camera.zoom.y = value
 
 var rocket_scene := preload("res://scenes/rocket.tscn")
 
 var shoot_cooldown := false
+var current_zoom := 0
+var zooming_in := false
+var zooming_out := false
 
 # Index of current rocket in firing rack
 var rocket_rack_index := 0
 
-func _process(_delta):
+func _process(delta):
 	if Input.is_action_pressed("Fire"):
 		if !shoot_cooldown:
 			fire_rocket()
@@ -31,6 +46,37 @@ func _process(_delta):
 			shoot_cooldown = true
 			await get_tree().create_timer(firing_cooldown).timeout
 			shoot_cooldown = false
+	if Input.is_action_just_pressed("Zoom In"):
+		current_zoom += 1
+		zooming_in = true
+		zooming_out = false
+		# update_zoom()
+	elif Input.is_action_just_pressed("Zoom Out"):
+		current_zoom -= 1
+		zooming_in = false
+		zooming_out = true
+		# update_zoom()
+	
+	current_zoom = clamp(current_zoom, min_zoom, max_zoom)
+	
+	if energy < max_energy:
+		energy += energy_regen_rate * delta
+	energy = clamp(energy, 0, max_energy)
+	
+	if zooming_in or zooming_out:
+		zoom = lerp(zoom, pow(2, current_zoom), delta * 2.0)
+
+func update_zoom():
+	current_zoom = clamp(current_zoom, min_zoom, max_zoom)
+
+	assert(camera.zoom.x == camera.zoom.y, "Player Camera2D x and y zoom must be the same!")
+	var camera_zoom = log(camera.zoom.x) / log(2) # Log2
+	
+	if current_zoom == camera_zoom:
+		return
+	
+	camera.zoom.x = pow(2, current_zoom)
+	camera.zoom.y = pow(2, current_zoom)
 
 func _physics_process(delta):
 	var input_vector := Vector2(0, Input.get_axis("Forward", "Backward"))
@@ -110,4 +156,10 @@ func fire_rocket():
 	
 func collide(body):
 	if body is Asteroid:
-		score -= 100
+		energy -= body.energy_cost
+		if energy < 0:
+			die()
+
+func die():
+	emit_signal("death")
+	process_mode = Node.PROCESS_MODE_DISABLED

@@ -32,6 +32,20 @@ var points: int:
 			_:
 				return 0
 
+var energy_cost: float:
+	get:
+		match size:
+			AsteroidSize.LARGE:
+				return 30
+			AsteroidSize.MEDIUM:
+				return 20
+			AsteroidSize.SMALL:
+				return 5
+			AsteroidSize.TINY:
+				return 1
+			_:
+				return 0
+
 @onready var sprite = $Sprite2D
 
 func _ready():
@@ -84,11 +98,9 @@ func explode(player: Player):
 
 
 func _on_body_entered(body):
-	if is_exploding:
+	if is_exploding or Time.get_ticks_msec() - created_at < invincibility_period * 1000:
 		return
 	if body is Player:
-		# Check relative speed, explode if too high
-		# if (body.velocity - (movement.rotated(rotation) * speed)).length() > max_collision_relative_speed:
 		explode(body)
 		body.collide(self)
 	if body is Asteroid:

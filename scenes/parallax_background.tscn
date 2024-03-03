@@ -12,6 +12,7 @@ script/source = "extends ParallaxBackground
 [node name="ParallaxBackground" type="ParallaxBackground"]
 scale = Vector2(4, 4)
 transform = Transform2D(4, 0, 0, 4, 0, 0)
+scroll_ignore_camera_zoom = true
 script = SubResource("GDScript_swayl")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="."]

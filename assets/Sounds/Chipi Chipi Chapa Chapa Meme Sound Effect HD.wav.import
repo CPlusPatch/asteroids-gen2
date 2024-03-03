@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://e0saiqq1pd41"
+path="res://.godot/imported/Chipi Chipi Chapa Chapa Meme Sound Effect HD.wav-8859b506a4aa793dc39eb831fc73da65.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Chipi Chipi Chapa Chapa Meme Sound Effect HD.wav"
+dest_files=["res://.godot/imported/Chipi Chipi Chapa Chapa Meme Sound Effect HD.wav-8859b506a4aa793dc39eb831fc73da65.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

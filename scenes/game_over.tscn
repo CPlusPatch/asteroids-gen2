@@ -1,0 +1,87 @@
+[gd_scene load_steps=10 format=3 uid="uid://bvg8pqd61kekd"]
+
+[ext_resource type="PackedScene" uid="uid://dbm2bga2volsr" path="res://scenes/typewriter_label.tscn" id="1_5rhdf"]
+[ext_resource type="FontFile" uid="uid://3ba4apinglfo" path="res://assets/Fonts/Essentle4.otf" id="1_pwa6l"]
+[ext_resource type="Script" path="res://scripts/game_over.gd" id="1_r4cxy"]
+[ext_resource type="AudioStream" uid="uid://cldc2d8adx2dq" path="res://assets/Sounds/Nerd emoji sound effect.wav" id="3_5ukbt"]
+[ext_resource type="AudioStream" uid="uid://e0saiqq1pd41" path="res://assets/Sounds/Chipi Chipi Chapa Chapa Meme Sound Effect HD.wav" id="4_uqeuk"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_h1wyb"]
+font = ExtResource("1_pwa6l")
+font_size = 50
+
+[sub_resource type="InputEventKey" id="InputEventKey_pft3k"]
+device = -1
+keycode = 82
+unicode = 114
+
+[sub_resource type="Shortcut" id="Shortcut_cdcgd"]
+events = [SubResource("InputEventKey_pft3k")]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_gol1n"]
+playback_mode = 1
+streams_count = 2
+stream_0/stream = ExtResource("3_5ukbt")
+stream_0/weight = 9.0
+stream_1/stream = ExtResource("4_uqeuk")
+stream_1/weight = 1.0
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_r4cxy")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -131.0
+offset_top = -24.5
+offset_right = 131.0
+offset_bottom = 24.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="TypewriterLabel" parent="Control/VBoxContainer" instance=ExtResource("1_5rhdf")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_h1wyb")
+horizontal_alignment = 1
+speed = 0.1
+
+[node name="Button" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("1_pwa6l")
+action_mode = 0
+shortcut = SubResource("Shortcut_cdcgd")
+text = "Try Again"
+flat = true
+
+[node name="GameOverSound" type="AudioStreamPlayer" parent="Control"]
+stream = SubResource("AudioStreamRandomizer_gol1n")
+autoplay = true
+
+[connection signal="pressed" from="Control/VBoxContainer/Button" to="." method="_on_button_pressed"]

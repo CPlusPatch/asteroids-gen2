@@ -447,9 +447,6 @@ trail_length = 10.0
 position = Vector2(-8, 25)
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_speed = 10.0
 
-[connection signal="x_out_of_bounds" from="." to="TrailRight" method="_on_player_x_out_of_bounds"]
-[connection signal="x_out_of_bounds" from="." to="TrailLeft" method="_on_player_x_out_of_bounds"]
-[connection signal="y_out_of_bounds" from="." to="TrailRight" method="_on_player_y_out_of_bounds"]
-[connection signal="y_out_of_bounds" from="." to="TrailLeft" method="_on_player_y_out_of_bounds"]
 [connection signal="animation_finished" from="Body/Rocket Rack" to="Body/Rocket Rack" method="_on_animation_finished"]
