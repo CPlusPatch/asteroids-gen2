@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1r3bckaq25l"]
+
+[ext_resource type="PackedScene" uid="uid://cohk2vyev3tgw" path="res://scenes/player.tscn" id="1_p8cgp"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_w2c8v"]
+[ext_resource type="PackedScene" uid="uid://gshu34b7ovaj" path="res://scenes/asteroid.tscn" id="3_mklcy"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_w2c8v")
+
+[node name="Player" parent="." instance=ExtResource("1_p8cgp")]
+position = Vector2(640, 360)
+
+[node name="Rockets" type="Node2D" parent="."]
+z_index = -1
+
+[node name="Asteroid" parent="." instance=ExtResource("3_mklcy")]
+position = Vector2(328, 301)
