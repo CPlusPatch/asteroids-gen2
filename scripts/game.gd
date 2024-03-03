@@ -25,8 +25,6 @@ func _process(_delta):
 	if Input.is_action_pressed("Reset") and OS.is_debug_build():
 		get_tree().reload_current_scene()
 	
-	print(asteroids.get_child_count())
-	
 	# Randomly spawn asteroids outside the viewport
 	var screen_size := get_viewport_rect().size
 	
