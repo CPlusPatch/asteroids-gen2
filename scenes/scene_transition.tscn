@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://scripts/scene_transition.gd" id="1_guxsp"]
 
-[sub_resource type="Animation" id="Animation_odxjw"]
-resource_name = "RESET"
+[sub_resource type="Animation" id="Animation_prqr1"]
+resource_name = "Dissolve"
 length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -18,8 +18,8 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_prqr1"]
-resource_name = "Dissolve"
+[sub_resource type="Animation" id="Animation_odxjw"]
+resource_name = "RESET"
 length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false

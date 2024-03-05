@@ -6,10 +6,23 @@ extends Node2D
 @onready var rockets := $Rockets
 @onready var players := $Players
 @onready var asteroids := $Asteroids
+@onready var pause_screen := $UI/PauseScreen as Control
 @onready var hud := $UI/HUD as HUD
 
 var asteroid_scene := preload("res://scenes/asteroid.tscn")
 var player_scene := preload("res://scenes/player.tscn")
+var is_paused: bool = false:
+	set(value):
+		is_paused = value
+		var new_process_mode := PROCESS_MODE_DISABLED if value else PROCESS_MODE_INHERIT
+		players.process_mode = new_process_mode
+		asteroids.process_mode = new_process_mode
+		hud.process_mode = new_process_mode
+		rockets.process_mode = new_process_mode
+		if value:
+			pause_screen.show()
+		else:
+			pause_screen.hide()
 
 func _ready():
 	var new_player := player_scene.instantiate() as Player
@@ -27,6 +40,9 @@ func _ready():
 func _process(_delta):
 	if Input.is_action_pressed("Reset") and OS.is_debug_build():
 		get_tree().reload_current_scene()
+		
+	if Input.is_action_just_pressed("Open Pause Menu"):
+		is_paused = !is_paused
 	
 	# Update energy
 	hud.energy = players.get_children()[0].energy
@@ -90,3 +106,11 @@ func spawn_asteroid(asteroid_position: Vector2, size: Asteroid.AsteroidSize, ast
 	
 func game_over():
 	SceneTransition.change_scene("res://scenes/game_over.tscn")
+
+
+func _on_pause_screen_resume():
+	is_paused = false
+
+
+func _on_pause_screen_restart():
+	get_tree().reload_current_scene()

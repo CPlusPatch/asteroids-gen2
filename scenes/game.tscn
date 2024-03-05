@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://c1r3bckaq25l"]
+[gd_scene load_steps=5 format=3 uid="uid://c1r3bckaq25l"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_w2c8v"]
 [ext_resource type="PackedScene" uid="uid://cds13owon8pgr" path="res://scenes/hud.tscn" id="3_efydk"]
+[ext_resource type="PackedScene" uid="uid://cbqxru8embbk4" path="res://scenes/pause_screen.tscn" id="3_mhse2"]
 [ext_resource type="PackedScene" uid="uid://bcttahwhk4rk8" path="res://scenes/parallax_background.tscn" id="4_b8v06"]
 
 [node name="Game" type="Node2D"]
@@ -17,4 +18,10 @@ script = ExtResource("1_w2c8v")
 
 [node name="HUD" parent="UI" instance=ExtResource("3_efydk")]
 
+[node name="PauseScreen" parent="UI" instance=ExtResource("3_mhse2")]
+visible = false
+
 [node name="ParallaxBackground" parent="." instance=ExtResource("4_b8v06")]
+
+[connection signal="restart" from="UI/PauseScreen" to="." method="_on_pause_screen_restart"]
+[connection signal="resume" from="UI/PauseScreen" to="." method="_on_pause_screen_resume"]
