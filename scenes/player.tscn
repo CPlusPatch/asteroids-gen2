@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://e5dj83u04pes" path="res://assets/Main Ship/Main Ship - Engine Effects/PNGs/Main Ship - Engines - Base Engine - Powering.png" id="6_bb4pr"]
 [ext_resource type="Texture2D" uid="uid://df6vs2khbscj8" path="res://assets/Main Ship/Main Ship - Weapons/PNGs/Main Ship - Weapons - Rockets.png" id="7_0kqij"]
 [ext_resource type="Texture2D" uid="uid://dxdrb5gqpoo1v" path="res://assets/Main Ship/Main Ship - Weapons/PNGs/Main Ship - Weapons - Rockets (2).png" id="8_e4mxs"]
-[ext_resource type="Script" path="res://scripts/Rocket Rack.gd" id="8_xivul"]
+[ext_resource type="Script" path="res://scripts/rocket_rack.gd" id="9_bt5mb"]
 [ext_resource type="AudioStream" uid="uid://bdnuksatvcj00" path="res://addons/kenney sci-fi sounds/thruster_fire_000.ogg" id="10_sksew"]
 [ext_resource type="AudioStream" uid="uid://3xqiqsoacuo" path="res://addons/kenney sci-fi sounds/laser_large_000.ogg" id="11_0frro"]
 [ext_resource type="AudioStream" uid="uid://3iq0vdvgq0q5" path="res://addons/kenney sci-fi sounds/thruster_fire_001.ogg" id="11_748tb"]
@@ -416,7 +416,7 @@ frame_progress = 0.779118
 z_index = -1
 sprite_frames = SubResource("SpriteFrames_4bnm3")
 animation = &"5"
-script = ExtResource("8_xivul")
+script = ExtResource("9_bt5mb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 1)

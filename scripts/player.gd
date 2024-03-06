@@ -131,7 +131,7 @@ func reduce_energy(amount: float):
 	# Calculate position right above player
 	var damage_position = global_position + Vector2(0, -40)
 	# Add damage numbers
-	DamageNumbers.display_number(amount, damage_position, amount > 25, 2.0)
+	DamageNumbers.display_number(int(amount), damage_position, amount > 25, 2.0)
 	if energy < 0:
 		die()
 

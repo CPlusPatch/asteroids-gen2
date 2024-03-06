@@ -2,11 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/projectile.gd" id="1_uefqg"]
 
-[node name="Projectile" type="Area2D" node_paths=PackedStringArray("sprite", "collision_shape", "explosion_sprite", "explosion_audio")]
+[node name="Projectile" type="Area2D"]
 collision_layer = 4
 collision_mask = 15
 script = ExtResource("1_uefqg")
-sprite = NodePath("")
-collision_shape = NodePath("")
-explosion_sprite = NodePath("")
-explosion_audio = NodePath("")

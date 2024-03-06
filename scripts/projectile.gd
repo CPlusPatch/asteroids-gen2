@@ -44,8 +44,11 @@ var speed := 0.0
 
 func _ready():
 	rotation = initial_rotation
-	explosion_sprite.hide()
+	if explosion_sprite:
+		explosion_sprite.hide()
 	connect("body_entered", _on_body_entered)
+	connect("area_entered", _on_area_entered)
+	speed = randf_range(min_speed, max_speed)
 	
 	if enable_sizing:
 		assert (typeof(size_index) == TYPE_INT, "Size index is required if sizing is enabled")
@@ -73,7 +76,7 @@ func explode(player: Player):
 	if is_exploding or Time.get_ticks_msec() - created_at < invincibility_period * 1000:
 		return
 	
-	if show_damage_numbers:
+	if show_damage_numbers and player:
 		# Calculate position right above asteroid
 		var damage_position = global_position + Vector2(0, -40)
 		# Add damage numbers
@@ -99,5 +102,9 @@ func _on_body_entered(body):
 	if body is Player:
 		explode(body)
 		body.collide(self)
-	if body is Projectile:
+
+func _on_area_entered(area):
+	if is_exploding or Time.get_ticks_msec() - created_at < invincibility_period * 1000:
+		return
+	if area is Projectile:
 		explode(null)

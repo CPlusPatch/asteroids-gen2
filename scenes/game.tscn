@@ -5,12 +5,15 @@
 [ext_resource type="PackedScene" uid="uid://cbqxru8embbk4" path="res://scenes/pause_screen.tscn" id="3_mhse2"]
 [ext_resource type="PackedScene" uid="uid://bcttahwhk4rk8" path="res://scenes/parallax_background.tscn" id="4_b8v06"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("projectiles", "rockets", "players")]
 script = ExtResource("1_w2c8v")
+projectiles = NodePath("Projectiles")
+rockets = NodePath("Rockets")
+players = NodePath("Players")
 
 [node name="Rockets" type="Node" parent="."]
 
-[node name="Asteroids" type="Node" parent="."]
+[node name="Projectiles" type="Node" parent="."]
 
 [node name="Players" type="Node" parent="."]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://30lcufuiidcl"]
 
-[ext_resource type="Script" path="res://scripts/Trail.gd" id="1_of8ss"]
+[ext_resource type="Script" path="res://scripts/trail.gd" id="1_2q7mn"]
 
 [sub_resource type="Gradient" id="Gradient_ntm4n"]
 colors = PackedColorArray(1, 1, 1, 0, 1, 0.4605, 0.17, 1)
@@ -14,5 +14,5 @@ begin_cap_mode = 2
 end_cap_mode = 2
 round_precision = 15
 antialiased = true
-script = ExtResource("1_of8ss")
+script = ExtResource("1_2q7mn")
 target_path = NodePath("..")

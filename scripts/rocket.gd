@@ -46,6 +46,6 @@ func _on_timer_timeout():
 
 
 func _on_area_entered(area):
-	if area is Asteroid:
+	if area is Projectile:
 		area.explode(player)
 		queue_free()
