@@ -94,7 +94,6 @@ func explode(player: Player):
 	queue_free()
 
 func _on_body_entered(body):
-	print(body)
 	if is_exploding or Time.get_ticks_msec() - created_at < invincibility_period * 1000:
 		return
 	if body is Player:

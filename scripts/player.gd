@@ -82,10 +82,9 @@ func _physics_process(delta):
 	velocity = velocity.limit_length(max_speed)
 	
 	# Rotation
-	if Input.is_action_pressed("Rotate Right"):
-		rotate(deg_to_rad(rotation_speed * delta))
-	if Input.is_action_pressed("Rotate Left"):
-		rotate(deg_to_rad(-1 * rotation_speed * delta))
+	var rotation_degree = Input.get_axis("Rotate Left", "Rotate Right")
+	
+	rotate(deg_to_rad(rotation_speed * delta * rotation_degree))
 		
 	 # Thruster sound
 	if Input.is_action_just_pressed("Rotate Left") or Input.is_action_just_pressed("Rotate Right") \
