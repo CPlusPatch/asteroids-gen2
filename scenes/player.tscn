@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://cohk2vyev3tgw"]
+[gd_scene load_steps=69 format=3 uid="uid://cohk2vyev3tgw"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_b21kb"]
 [ext_resource type="Texture2D" uid="uid://drpd3ukqtaok8" path="res://assets/Main Ship/Main Ship - Bases/PNGs/Main Ship - Base - Full health.png" id="1_q4akx"]
@@ -20,6 +20,11 @@
 [ext_resource type="AudioStream" uid="uid://dyih2ytmoxa6u" path="res://addons/kenney sci-fi sounds/thruster_fire_004.ogg" id="14_sts1b"]
 [ext_resource type="AudioStream" uid="uid://dvqasapcmjsr2" path="res://addons/kenney sci-fi sounds/laser_large_004.ogg" id="15_kk4or"]
 [ext_resource type="PackedScene" uid="uid://30lcufuiidcl" path="res://scenes/trail.tscn" id="20_kbb1c"]
+[ext_resource type="AudioStream" uid="uid://3lmcg36vrmg2" path="res://addons/kenney sci-fi sounds/space_engine_small_000.ogg" id="21_2h3nj"]
+[ext_resource type="AudioStream" uid="uid://uout8pj71yfh" path="res://addons/kenney sci-fi sounds/space_engine_small_001.ogg" id="22_2tedb"]
+[ext_resource type="AudioStream" uid="uid://duojc64gsymf5" path="res://addons/kenney sci-fi sounds/space_engine_small_002.ogg" id="23_whwnx"]
+[ext_resource type="AudioStream" uid="uid://svuktxtiggly" path="res://addons/kenney sci-fi sounds/space_engine_small_003.ogg" id="24_ekv6a"]
+[ext_resource type="AudioStream" uid="uid://uxr87gucba4f" path="res://addons/kenney sci-fi sounds/space_engine_small_004.ogg" id="25_gjcy6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g1ubo"]
 atlas = ExtResource("4_46ac1")
@@ -331,6 +336,59 @@ animations = [{
 radius = 12.0
 height = 26.0
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_12q6d"]
+streams_count = 5
+stream_0/stream = ExtResource("21_2h3nj")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("22_2tedb")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("23_whwnx")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("24_ekv6a")
+stream_3/weight = 1.0
+stream_4/stream = ExtResource("25_gjcy6")
+stream_4/weight = 1.0
+
+[sub_resource type="GDScript" id="GDScript_142fg"]
+script/source = "extends AudioStreamPlayer2D
+
+func _on_finished():
+	play()
+"
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_xtb13"]
+streams_count = 5
+stream_0/stream = ExtResource("10_sksew")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("11_748tb")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("12_1iqhi")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("13_u7xmb")
+stream_3/weight = 1.0
+stream_4/stream = ExtResource("14_sts1b")
+stream_4/weight = 1.0
+
+[sub_resource type="GDScript" id="GDScript_bc2fm"]
+script/source = "extends AudioStreamPlayer2D
+
+func _on_finished():
+	play()
+"
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_82lat"]
+streams_count = 5
+stream_0/stream = ExtResource("11_0frro")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("12_2355b")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("13_unqvo")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("14_e8jic")
+stream_3/weight = 1.0
+stream_4/stream = ExtResource("15_kk4or")
+stream_4/weight = 1.0
+
 [node name="Player" type="CharacterBody2D" groups=["Players"]]
 collision_layer = 2
 collision_mask = 5
@@ -386,50 +444,6 @@ position = Vector2(-29, 47)
 [node name="6" type="Node2D" parent="Rocket Firing Spots"]
 position = Vector2(29, 47)
 
-[node name="Thruster Sounds" type="Node" parent="."]
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Thruster Sounds"]
-stream = ExtResource("10_sksew")
-volume_db = -10.0
-
-[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="Thruster Sounds"]
-stream = ExtResource("11_748tb")
-volume_db = -10.0
-
-[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="Thruster Sounds"]
-stream = ExtResource("12_1iqhi")
-volume_db = -10.0
-
-[node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="Thruster Sounds"]
-stream = ExtResource("13_u7xmb")
-volume_db = -10.0
-
-[node name="AudioStreamPlayer5" type="AudioStreamPlayer" parent="Thruster Sounds"]
-stream = ExtResource("14_sts1b")
-volume_db = -10.0
-
-[node name="Firing Sounds" type="Node" parent="."]
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Firing Sounds"]
-stream = ExtResource("11_0frro")
-volume_db = -10.0
-
-[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="Firing Sounds"]
-stream = ExtResource("12_2355b")
-volume_db = -10.0
-
-[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="Firing Sounds"]
-stream = ExtResource("13_unqvo")
-volume_db = -10.0
-
-[node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="Firing Sounds"]
-stream = ExtResource("14_e8jic")
-volume_db = -10.0
-
-[node name="AudioStreamPlayer5" type="AudioStreamPlayer" parent="Firing Sounds"]
-stream = ExtResource("15_kk4or")
-volume_db = -10.0
-
 [node name="TrailRight" parent="." node_paths=PackedStringArray("position_node") instance=ExtResource("20_kbb1c")]
 z_index = -1
 position_node = NodePath("../TrailMarkerRight")
@@ -448,5 +462,22 @@ position = Vector2(-8, 25)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_speed = 10.0
+editor_draw_drag_margin = true
+
+[node name="Engine Sounds" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_12q6d")
+volume_db = -10.0
+autoplay = true
+script = SubResource("GDScript_142fg")
+
+[node name="Thruster Sounds" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_xtb13")
+script = SubResource("GDScript_bc2fm")
+
+[node name="Firing Sounds" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_82lat")
+volume_db = -10.0
 
 [connection signal="animation_finished" from="Body/Rocket Rack" to="Body/Rocket Rack" method="_on_animation_finished"]
+[connection signal="finished" from="Engine Sounds" to="Engine Sounds" method="_on_finished"]
+[connection signal="finished" from="Thruster Sounds" to="Thruster Sounds" method="_on_finished"]

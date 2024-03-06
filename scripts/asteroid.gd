@@ -83,6 +83,11 @@ func _physics_process(delta):
 func explode(player: Player):
 	if is_exploding or Time.get_ticks_msec() - created_at < invincibility_period * 1000:
 		return
+	
+	# Calculate position right above asteroid
+	var damage_position = global_position + Vector2(0, -40)
+	# Add damage numbers
+	DamageNumbers.display_number(points, damage_position, false, 2, "#2B2")
 		
 	# Draw explosion over new asteroids
 	z_index = 10

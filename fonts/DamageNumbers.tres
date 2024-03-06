@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dn657gts5nqho"]
+
+[ext_resource type="FontFile" uid="uid://0n2hgkbqie74" path="res://assets/Fonts/Baskic8.otf" id="1_guesy"]
+
+[resource]
+font = ExtResource("1_guesy")
+font_size = 18
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
