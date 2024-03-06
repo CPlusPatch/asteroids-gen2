@@ -124,15 +124,15 @@ func fire_rocket():
 	$"Firing Sounds".play()
 	
 func collide(body):
-	if body is Asteroid:
-		reduce_energy(body.energy_cost)
+	if body is Projectile:
+		reduce_energy(Energy.speed_to_shield_cost(body.speed))
 
 func reduce_energy(amount: float):
 	energy -= amount
 	# Calculate position right above player
 	var damage_position = global_position + Vector2(0, -40)
 	# Add damage numbers
-	DamageNumbers.display_number(amount, damage_position, amount > 25, 2)
+	DamageNumbers.display_number(amount, damage_position, amount > 25, 2.0)
 	if energy < 0:
 		die()
 

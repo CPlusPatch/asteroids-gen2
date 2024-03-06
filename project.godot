@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 SceneTransition="*res://scenes/scene_transition.tscn"
 DamageNumbers="*res://scripts/damage_numbers.gd"
+Energy="*res://scripts/energy.gd"
 
 [display]
 

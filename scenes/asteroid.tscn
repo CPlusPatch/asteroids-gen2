@@ -1,7 +1,8 @@
-[gd_scene load_steps=83 format=3 uid="uid://gshu34b7ovaj"]
+[gd_scene load_steps=84 format=3 uid="uid://bkeg60psidcan"]
 
 [ext_resource type="Script" path="res://scripts/asteroid.gd" id="1_0s1fi"]
 [ext_resource type="Texture2D" uid="uid://cdbcd2uufqjwo" path="res://assets/Environment/Asteroids/PNGs/Asteroid 01 - Base.png" id="1_1rqfj"]
+[ext_resource type="PackedScene" uid="uid://gshu34b7ovaj" path="res://scenes/projectile.tscn" id="1_vstxr"]
 [ext_resource type="Texture2D" uid="uid://d3x2cranhrfy2" path="res://assets/Explosions/round_explosion/spritesheet/spritesheet.png" id="3_dbymk"]
 [ext_resource type="AudioStream" uid="uid://bjb67rtxqp13g" path="res://addons/kenney sci-fi sounds/explosion_crunch_000.ogg" id="4_y5mbr"]
 [ext_resource type="AudioStream" uid="uid://d20rn080vaqq5" path="res://addons/kenney sci-fi sounds/explosion_crunch_001.ogg" id="5_ke700"]
@@ -9,7 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://dbv70vh85cfkl" path="res://addons/kenney sci-fi sounds/explosion_crunch_003.ogg" id="7_7ltwf"]
 [ext_resource type="AudioStream" uid="uid://cc1uw6cgs7xsc" path="res://addons/kenney sci-fi sounds/explosion_crunch_004.ogg" id="8_vqk6j"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_xk5j4"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_kmlju"]
 radius = 18.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qtv4t"]
@@ -296,7 +297,7 @@ region = Rect2(900, 600, 100, 100)
 atlas = ExtResource("3_dbymk")
 region = Rect2(0, 700, 100, 100)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_8wpu4"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_0kbg0"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -517,7 +518,7 @@ animations = [{
 "speed": 60.0
 }]
 
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_viuue"]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_lqt80"]
 streams_count = 5
 stream_0/stream = ExtResource("4_y5mbr")
 stream_0/weight = 1.0
@@ -530,24 +531,32 @@ stream_3/weight = 1.0
 stream_4/stream = ExtResource("8_vqk6j")
 stream_4/weight = 1.0
 
-[node name="Asteroid" type="Area2D"]
-scale = Vector2(3, 3)
-collision_layer = 4
-collision_mask = 15
+[node name="Asteroid" node_paths=PackedStringArray("sprite", "collision_shape", "explosion_sprite", "explosion_audio") instance=ExtResource("1_vstxr")]
 script = ExtResource("1_0s1fi")
+size = 3
+sprite = NodePath("Sprite2D")
+collision_shape = NodePath("CollisionShape2D")
+explosion_sprite = NodePath("ExplosionSprite")
+explosion_audio = NodePath("ExplosionAudio")
+enable_sizing = true
+speed_scales_array = Array[float]([8.0, 4.0, 2.0, 1.0])
+points_array = Array[float]([160.0, 80.0, 40.0, 20.0])
+size_scales_array = Array[float]([0.333, 0.5, 0.667, 1.0])
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." index="0"]
+scale = Vector2(3, 3)
 texture = ExtResource("1_1rqfj")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, 0)
-shape = SubResource("CircleShape2D_xk5j4")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
+position = Vector2(-3, 0)
+scale = Vector2(3, 3)
+shape = SubResource("CircleShape2D_kmlju")
 
-[node name="ExplosionSprite" type="AnimatedSprite2D" parent="."]
+[node name="ExplosionSprite" type="AnimatedSprite2D" parent="." index="2"]
 visible = false
-sprite_frames = SubResource("SpriteFrames_8wpu4")
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_0kbg0")
 
-[node name="ExplosionAudio" type="AudioStreamPlayer2D" parent="."]
-stream = SubResource("AudioStreamRandomizer_viuue")
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[node name="ExplosionAudio" type="AudioStreamPlayer2D" parent="." index="3"]
+scale = Vector2(3, 3)
+stream = SubResource("AudioStreamRandomizer_lqt80")
