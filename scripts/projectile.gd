@@ -80,7 +80,7 @@ func explode(player: Player):
 		# Calculate position right above asteroid
 		var damage_position = global_position + Vector2(0, -40)
 		# Add damage numbers
-		DamageNumbers.display_number(points, damage_position, false, 2.0, "#2B2")
+		DamageNumbers.display_number(int(points), damage_position, false, 2.0, "#2B2")
 		
 	# Draw explosion over new asteroids
 	z_index = 10
